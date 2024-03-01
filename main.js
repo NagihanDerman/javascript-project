@@ -5,6 +5,7 @@ const list = document.querySelector(".grocery-list");
 const container = document.querySelector(".grocery-container");
 const alert = document.querySelector(".alert");
 const submitBtn = document.querySelector(".submit-btn");
+const clearBtn = document.querySelector(".clear-btn");
 
 // duzenleme secenekleri
 let editElement;
@@ -13,6 +14,7 @@ let editID = "";
 
 // Olay Izleyicileri
 form.addEventListener("submit", addItem);
+clearBtn.addEventListener("click", clearItems);
 
 // Fonksiyonlar
 function displayAlert(text, action) {
@@ -28,6 +30,7 @@ function addItem(e) {
   e.preventDefault();
   const value = grocery.value;
   const id = new Date().getTime().toString();
+
   // Eğer değer boş değilse ve düzenleme modunda değilse
   if (value !== "" && !editFlag) {
     const element = document.createElement("article");
@@ -53,8 +56,7 @@ function addItem(e) {
     deleteBtn.addEventListener("click", deleteItem);
     const editBtn = element.querySelector(".edit-btn");
     editBtn.addEventListener("click", editItem);
-    const clearBtn = document.querySelector(".clear-btn");
-    clearBtn.addEventListener("click", clearItem);
+ 
 
     // kapsayıcıya ekleme yapma
     list.appendChild(element);
@@ -91,9 +93,14 @@ function editItem(e) {
   // console.log(element.dataset.id);
   submitBtn.textContent = "Düzenle";
 }
+
 // silme fonksiyonu
-function clearItem(e) {
-  list.innerHTML = "";
+function clearItems() {
+  const items = document.querySelectorAll(".grocery.item");
+  console.log(items);
+  if (items.length > 0) {
+    items.forEach((item) => list.removeChild(item));
+  }
   container.classList.remove("show-container");
-  displayAlert("Öğeler Silindi", "danger");
+  displayAlert("Liste Temizlendi", "danger");
 }
